@@ -1,0 +1,10 @@
+{%extends 'signupgnomies/base.html'%} {%block content%}
+<h1>{{object.name}}</h1>
+
+<br /><br />
+<h2>Category Signups</h2>
+{% for slot in category.slots.all%}
+<strong>{{slot.slot_holder_firstname}}</strong>
+<strong>{{slot.slot_holder_lastname}}</strong>
+<button class="btn btn-success">sign up</button>
+{%endfor%} {%endblock content%}

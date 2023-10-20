@@ -1,0 +1,77 @@
+{%extends 'signupgnomies/base.html'%} {%block content%}
+<h1>{{object.event_name}}</h1>
+
+<div class="card my-4 w-75">
+  <div class="card-body">
+    <h5 class="card-title">{{object.event_name}}</h5>
+    <h6 class="card-subtitle mb-2 text-body-secondary">{{object.teacher}}</h6>
+    <p class="card-text">{{object.description}}</p>
+    <p class="card-text">{{object.date | date:"F d, Y"}}</p>
+
+    <br /><br />
+    <h5>Categories to sign up for</h5>
+
+    {% if not event.categories.all%} No categories yet...
+    <a href="{% url 'add_category' event.pk%}">add category</a>
+    {%else%}
+    <a href="{% url 'add_category' event.pk%}">add category</a>
+    <br />
+    {% for category in event.categories.all%}
+    <ul class="list-group">
+    <li class="list-group-item d-flex justify-content-between align-items-center">{{category.name}} <span class="badge text-bg-secondary">{{category.number_of_slots}}</span> 
+    {% if category.slots.all.count != category.number_of_slots %}
+     <a class="btn btn-success btn-sm" href="{%url 'add_slot' category.pk%}">
+      <!-- if category.slots.count = number of slots THEN disable sign up -->
+      Sign Up
+    </a>
+    {% else%}
+    <button type="button" class="btn btn-success btn-sm" disabled>Fulfilled</button>
+    {%endif%}
+    </li>
+    
+    
+    {%endfor%} {%endif%}
+  </div>
+</div>
+{%if user.is_staff%}
+<div class="col-4">
+  <a class="btn btn-outline-success" href="{% url 'events-update' object.id%}"
+    >Update</a
+  >
+  <a class="btn btn-outline-danger" href="{% url 'events-delete' object.id%}"
+    >Delete</a
+  >
+</div>
+
+{%endif%}
+
+
+<table class="table table-hover table-bordered">
+  <thead>
+    <tr>
+      <th scope="col">Category</th>
+      <th scope="col">First Name</th>
+      <th scope="col">Last Name</th>
+      <th scope="col">Student</th>
+    </tr>
+  </thead>
+    {%for category in event.categories.all%}
+    {% for slot in category.slots.all %}
+    
+  
+  <tbody>
+    <tr>
+      <th scope="row">{{category}}</th>
+      <td>{{slot.slot_holder_firstname}}</td>
+      <td>{{slot.slot_holder_lastname}}</td>
+      <td>{{slot.slot_holder_student}}</td>
+    </tr>
+  </tbody>
+
+    
+    {%endfor%}
+    {%endfor%}
+  </table>
+
+
+{%endblock content%}

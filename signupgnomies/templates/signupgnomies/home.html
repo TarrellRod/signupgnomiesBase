@@ -1,0 +1,20 @@
+{%extends 'signupgnomies/base.html'%} {%block content%}{% load static %}
+
+<h3>Events/Volunteer Opportunities</h3>
+
+<div class="row">
+  {% for event in events %}
+  <div class="col-md-auto">
+    <div class="card my-4" style="width: 18rem">
+      <div class="card-body">
+        <h5 class="card-title">{{event.event_name}}</h5>
+        <p class="card-text">On {{event.date | date:"F d, Y"}}</p>
+        <a href="{% url 'events-detail' event.pk%}" class="card-link"
+          >View Event</a
+        >
+      </div>
+    </div>
+  </div>
+  {%endfor%}
+</div>
+{%endblock content%}
